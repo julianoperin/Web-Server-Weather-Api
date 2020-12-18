@@ -1,6 +1,6 @@
 const path = require("path");
 const express = require("express");
-const hbs = require("hbs");
+const hbs = require("hbs"); //! Handle bars
 
 const app = express();
 
@@ -12,7 +12,7 @@ const partialsPath = path.join(__dirname, "../templates/partials");
 // Setup handlebars engine and views location
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
-hbs.registerPartials(partialsPath);
+hbs.registerPartials(partialsPath); //! To reuse in multiple pages
 
 // Setup static directory to serve
 app.use(express.static(publicDirectoryPath));
@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 app.get("/about", (req, res) => {
   res.render("about", {
     title: "About Me",
-    name: "Andrew Mead",
+    name: "Juliano Perin",
   });
 });
 
@@ -35,7 +35,7 @@ app.get("/help", (req, res) => {
   res.render("help", {
     helpText: "This is some helpful text.",
     title: "Help",
-    name: "Andrew Mead",
+    name: "Juliano Perin",
   });
 });
 
@@ -53,18 +53,18 @@ app.get("/weather", (req, res) => {
   });
 });
 
-app.get("/products", (req, res) => {
-  if (!req.query.search) {
-    return res.send({
-      error: "You must provide a search term",
-    });
-  }
+// app.get("/products", (req, res) => {
+//   if (!req.query.search) {
+//     return res.send({
+//       error: "You must provide a search term",
+//     });
+//   }
 
-  console.log(req.query.search);
-  res.send({
-    products: [],
-  });
-});
+//   console.log(req.query.search);
+//   res.send({
+//     products: [],
+//   });
+// });
 
 // app.get("/help/*", (req, res) => {
 //   res.render("404", {
