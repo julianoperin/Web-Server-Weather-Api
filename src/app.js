@@ -2,6 +2,12 @@ const path = require("path");
 const express = require("express");
 const hbs = require("hbs"); //! Handle bars
 
+//! Old weather-api-project
+const geocode = require("./utils/geocode");
+const forecast = require("./utils/forecast");
+
+// const address = process.argv[2];
+
 const app = express();
 
 // Define paths for Express config
@@ -47,12 +53,25 @@ app.get("/weather", (req, res) => {
     });
   }
 
-  console.log(req.query.address);
-  res.send({
-    forecast: "It is snowing",
-    location: "Manhattan",
-    address: req.query.address,
+  //!
+  geocode(req.query.address, (error, { latitude, longitude, location }) => {
+    if (error) {
+      return console.log(error);
+    }
+
+    forecast(latitude, longitude, (error, forecastData) => {
+      if (error) {
+        return console.log(error);
+      }
+
+      res.send({
+        forecast: forecastData,
+        location: location,
+        address: req.query.address,
+      });
+    });
   });
+  //!
 });
 
 //! PRODUCTS
@@ -63,7 +82,6 @@ app.get("/products", (req, res) => {
     });
   }
 
-  console.log(req.query);
   res.send({
     products: [],
   });
