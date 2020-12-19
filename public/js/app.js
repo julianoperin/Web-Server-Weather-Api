@@ -1,8 +1,17 @@
 console.log("Worked!");
 
-const alfa = document.querySelector(".alfa");
-const btn = document.querySelector(".btn");
+// const input = document.querySelector(".input");
+// const btn = document.querySelector(".btn");
 
-btn.addEventListener("click", () => {
-  alfa.innerHTML = "<h1>Hi there</h1>";
-});
+// console.log(input.target.value);
+
+fetch("http://localhost:3000/weather?address=union")
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.error) {
+      console.log(data.error);
+    } else {
+      console.log(data.location);
+      console.log(data.forecast);
+    }
+  });

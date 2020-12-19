@@ -6,8 +6,6 @@ const hbs = require("hbs"); //! Handle bars
 const geocode = require("./utils/geocode");
 const forecast = require("./utils/forecast");
 
-// const address = process.argv[2];
-
 const app = express();
 
 // Define paths for Express config
@@ -53,25 +51,29 @@ app.get("/weather", (req, res) => {
     });
   }
 
-  //!
-  geocode(req.query.address, (error, { latitude, longitude, location }) => {
-    if (error) {
-      return console.log(error);
-    }
-
-    forecast(latitude, longitude, (error, forecastData) => {
+  //! code from utils
+  geocode(
+    req.query.address,
+    (error, { latitude, longitude, location } = {}) => {
       if (error) {
-        return console.log(error);
+        return res.send({
+          error: error,
+        });
       }
 
-      res.send({
-        forecast: forecastData,
-        location: location,
-        address: req.query.address,
+      forecast(latitude, longitude, (error, forecastData) => {
+        if (error) {
+          return console.log(error);
+        }
+
+        res.send({
+          forecast: forecastData,
+          location: location,
+          address: req.query.address,
+        });
       });
-    });
-  });
-  //!
+    }
+  );
 });
 
 //! PRODUCTS
