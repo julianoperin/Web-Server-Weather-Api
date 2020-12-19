@@ -56,3 +56,7 @@ a {
   text-decoration: none;
   margin: 1rem;
 }
+
+button {
+  cursor: pointer;
+}
