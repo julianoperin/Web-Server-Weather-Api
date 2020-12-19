@@ -4,26 +4,27 @@ const weatherForm = document.querySelector("form");
 const search = document.querySelector("input");
 
 const searchTerm = document.querySelector("h2");
-const place = document.querySelector("h3");
-const weather = document.querySelector("h4");
+
+const messageOne = document.querySelector(".messageOne");
+const messageTwo = document.querySelector(".messageTwo");
 
 weatherForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const location = search.value;
 
+  messageOne.textContent = "Fetching...";
+  messageTwo.textContent = "";
+
   fetch(`http://localhost:3000/weather?address=${location}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.error) {
-        console.log(data.error);
+        messageOne.textContent = data.error;
       } else {
-        console.log(data.location);
-        console.log(data.forecast);
-        place.innerText = data.location;
-        weather.innerText = data.forecast;
+        messageOne.textContent = data.location;
+        messageTwo.textContent = data.forecast;
       }
     });
-  console.log(location);
 
-  searchTerm.innerText = `Search Term "${location}"`;
+  searchTerm.textContent = `Search Term "${location}"`;
 });
