@@ -15,7 +15,9 @@ weatherForm.addEventListener("submit", (e) => {
   messageOne.textContent = "Fetching...";
   messageTwo.textContent = "";
 
-  fetch(`http://localhost:3000/weather?address=${location}`)
+  fetch(
+    `https://japerin-weather-application.herokuapp.com/weather?address=${location}`
+  )
     .then((response) => response.json())
     .then((data) => {
       if (data.error) {
